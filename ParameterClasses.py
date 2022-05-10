@@ -1,5 +1,5 @@
 from enum import Enum
-import InputModelData as Data
+import InputData45Screen as Data
 
 
 class Therapies(Enum):

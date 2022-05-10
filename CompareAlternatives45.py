@@ -1,4 +1,4 @@
-import InputModelData as D
+import InputData45Screen as D
 import ParameterClasses as P
 import MarkovModelClasses as Cls
 import Support as Support
@@ -40,4 +40,4 @@ Support.report_CEA_CBA(sim_outcomes_screen=cohort_screen.cohortOutcomes,
                        sim_outcomes_no_screen=cohort_no_screen.cohortOutcomes)
 
 
-print('If the willingness-to-pay is $5069.6, I would recommend adopting this anticoagulation drug')
+print('If the willingness-to-pay is $8,409, I would recommend adopting this screening strategy')

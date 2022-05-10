@@ -1,4 +1,4 @@
-import InputModelData as D
+import InputData45Screen as D
 import SimPy.EconEval as Econ
 import SimPy.Plots.Histogram as Hist
 import SimPy.Plots.SamplePaths as Path
@@ -22,6 +22,11 @@ def print_outcomes(sim_outcomes, therapy_name):
         .get_formatted_mean_and_interval(interval_type='c',
                                          alpha=D.ALPHA,
                                          deci=2)
+    # mean and confidence interval text of time to AIDS
+    number_of_treat_CI_text = sim_outcomes.statNTreatments\
+        .get_formatted_mean_and_interval(interval_type='c',
+                                         alpha=D.ALPHA,
+                                         deci=2)
 
     # mean and confidence interval text of discounted total cost
     cost_mean_CI_text = sim_outcomes.statCost\
@@ -42,6 +47,8 @@ def print_outcomes(sim_outcomes, therapy_name):
           survival_mean_CI_text)
     print("  Estimate of expected number of polyps and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
           number_of_polyp_CI_text)
+    print("  Estimate of expected number of treatments and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
+          number_of_treat_CI_text)
     print("  Estimate of discounted cost and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
           cost_mean_CI_text)
     print("  Estimate of discounted utility and {:.{prec}%} confidence interval:".format(1 - D.ALPHA, prec=0),
@@ -141,7 +148,7 @@ def print_comparative_outcomes(sim_outcomes_screen, sim_outcomes_no_screen):
           estimate_CI)
 
     decrease_number_polyp = Stat.DifferenceStatIndp(
-        name='Decrease in expected number of strokes',
+        name='Decrease in expected number of polyps',
         x=sim_outcomes_screen.nTotalPolyps,
         y_ref=sim_outcomes_no_screen.nTotalPolyps)
 
@@ -149,7 +156,20 @@ def print_comparative_outcomes(sim_outcomes_screen, sim_outcomes_no_screen):
     estimate_CI = decrease_number_polyp.get_formatted_mean_and_interval(interval_type='c',
                                                                          alpha=D.ALPHA,
                                                                          deci=2)
-    print("Decrease in expected number of strokes and {:.{prec}%} confidence interval:"
+    print("Decrease in expected number of polyps and {:.{prec}%} confidence interval:"
+          .format(1 - D.ALPHA, prec=0),
+          estimate_CI)
+
+    increase_number_treat = Stat.DifferenceStatIndp(
+        name='Increase in expected number of treatments',
+        x=sim_outcomes_screen.NTreatments,
+        y_ref=sim_outcomes_no_screen.NTreatments)
+
+    # estimate and CI
+    estimate_CI = increase_number_treat.get_formatted_mean_and_interval(interval_type='c',
+                                                                        alpha=D.ALPHA,
+                                                                        deci=2)
+    print("Increase in expected number of treatments and {:.{prec}%} confidence interval:"
           .format(1 - D.ALPHA, prec=0),
           estimate_CI)
 
@@ -186,7 +206,7 @@ def report_CEA_CBA(sim_outcomes_screen, sim_outcomes_no_screen):
         x_label='Additional Utilities',
         y_label='Additional Cost',
         x_range=(-0.5, 0.8),
-        y_range=(-1000, 4000),
+        y_range=(-1000, 3000),
         interval_type='c'  # to show confidence intervals for cost and effect of each strategy
     )
 
@@ -202,7 +222,7 @@ def report_CEA_CBA(sim_outcomes_screen, sim_outcomes_no_screen):
     # CBA
     NBA = Econ.CBA(
         strategies=[no_screen_strategy, screen_strategy],
-        wtp_range=[0, 22000],
+        wtp_range=[0, 11000],
         if_paired=False
     )
     # show the net monetary benefit figure

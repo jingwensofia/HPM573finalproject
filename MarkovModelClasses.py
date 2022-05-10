@@ -2,7 +2,7 @@ import numpy as np
 
 import SimPy.Markov as Markov
 import SimPy.SamplePath as Path
-from InputModelData import HealthStates
+from InputData45Screen import HealthStates
 import SimPy.EconEval as Econ
 import SimPy.Statistics as Stat
 
@@ -64,6 +64,7 @@ class PatientStateMonitor:
         self.currentState = parameters.initialHealthState     # assuming everyone starts in "Well"
         self.survivalTime = None
         self.nPolyps = 0
+        self.nTreatments = 0
         self.costUtilityMonitor = PatientCostUtilityMonitor(parameters=parameters)
 
     def update(self, time, new_state):
@@ -80,6 +81,9 @@ class PatientStateMonitor:
         # update number of strokes
         if new_state in (HealthStates.SMALL, HealthStates.LARGE):
             self.nPolyps += 1
+
+        if new_state == HealthStates.TREATMENT:
+            self.nTreatments += 1
 
         # update cost and utility
         self.costUtilityMonitor.update(time=time,
@@ -111,7 +115,7 @@ class PatientCostUtilityMonitor:
         """
 
         # cost and utility (per unit of time) during the period since the last recording until now
-        if current_state == HealthStates.WELL:
+        if current_state in (HealthStates.SCREEN_NO_DISEASE, HealthStates.SCREEN_DISEASE):
             cost = self.params.annualStateCosts[current_state.value] + self.params.annualTreatmentCost
         else:
             cost = self.params.annualStateCosts[current_state.value]
@@ -130,6 +134,11 @@ class PatientCostUtilityMonitor:
                                                       discount_continuously=True)
         if next_state == HealthStates.CRC:
             discounted_cost += Econ.pv_single_payment(payment=64986, discount_rate=0.03,
+                                                      discount_period=time,
+                                                      discount_continuously=True)
+
+        if next_state == HealthStates.TREATMENT:
+            discounted_cost += Econ.pv_single_payment(payment=1278, discount_rate=0.03,
                                                       discount_period=time,
                                                       discount_continuously=True)
         # if we want to add stroke into the model, stroke is one time thing
@@ -183,12 +192,14 @@ class CohortOutcomes:
 
         self.survivalTimes = []
         self.nTotalPolyps = []
+        self.NTreatments = []
         self.nLivingPatients = None
         self.costs = []  # patients' discounted costs
         self.utilities = []  # patients' discounted utilities
 
         self.statSurvivalTime = None  # summary statistics for survival time
         self.statNPolyps = None
+        self.statNTreatments = None
         self.statCost = None  # summary statistics for discounted cost
         self.statUtility = None  # summary statistics for discounted utility
 
@@ -201,6 +212,7 @@ class CohortOutcomes:
             self.survivalTimes.append(simulated_patient.stateMonitor.survivalTime)
         # number of strokes
         self.nTotalPolyps.append(simulated_patient.stateMonitor.nPolyps)
+        self.NTreatments.append(simulated_patient.stateMonitor.nTreatments)
 
         self.costs.append(simulated_patient.stateMonitor.costUtilityMonitor.totalDiscountedCost)
         self.utilities.append(simulated_patient.stateMonitor.costUtilityMonitor.totalDiscountedUtility)
@@ -212,6 +224,7 @@ class CohortOutcomes:
         # summary statistics
         self.statSurvivalTime = Stat.SummaryStat(name='Survival time', data=self.survivalTimes)
         self.statNPolyps = Stat.SummaryStat(name='Post-stroke time', data=self.nTotalPolyps)
+        self.statNTreatments = Stat.SummaryStat(name='Post-stroke time', data=self.NTreatments)
         self.statCost = Stat.SummaryStat(name='Discounted cost', data=self.costs)
         self.statUtility = Stat.SummaryStat(name='Discounted utility', data=self.utilities)
 
