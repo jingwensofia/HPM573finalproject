@@ -4,7 +4,7 @@ import MarkovModelFIT as Cls
 import SupportFIT as Support
 
 
-# simulating mono therapy
+# simulating screening at 45 strategy
 # create a cohort
 # id could be any number, could be changed to 0
 
@@ -14,7 +14,7 @@ cohort_45screen = Cls.Cohort(id=1,
 # simulate the cohort
 cohort_45screen.simulate(sim_length=D.SIM_TIME_STEPS)
 
-# simulating combination therapy
+# simulating screening at 50 strategy
 # create a cohort
 cohort_50screen = Cls.Cohort(id=0,
                              pop_size=D.POP_SIZE,
