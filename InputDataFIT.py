@@ -13,8 +13,7 @@ PPVS = 0.1857
 PPVL = 0.0163
 PPVCA = 0.0078203
 
-r1 = 1+0.075
-r2 = 1+0.02
+r1 = 1+0.02
 
 
 class HealthStates(Enum):
@@ -38,9 +37,9 @@ TRANS45_Screen_MATRIX = [
     [0,          0,       0,           0, 0.011172,      0.0026605,   1,  0,   0],  # CRC
     [0,          0,       0,           0,        0,              0,   0,  0,   0],  # CRC_DEATH
     [0,          0,       0,           0,        0,              0,   0,  0,   0],  # NATUAL_DEATH
-    [351.86,     0,       0,           0,        0,   0.0026605*r2,   0,  0, 13.14],  # SCREEN_NO_DISEASE
-    [0,     337.26,   278.13,      97.455,       0,    0.0026605*r2,   0,  0, 382.155],  # SCREEN_DISEASE
-    [3.92,      0,        0,           0,        0,    0.0026605*r2,   0,  0,    0],  # TREATMENT
+    [351.86,     0,       0,           0,        0,   0.0026605*r1,   0,  0, 13.14],  # SCREEN_NO_DISEASE
+    [0,     337.26,   278.13,      97.455,       0,    0.0026605*r1,   0,  0, 382.155],  # SCREEN_DISEASE
+    [3.92,      0,        0,           0,        0,    0.0026605*r1,   0,  0,    0],  # TREATMENT
 ]
 
 # transition rate matrix for 45 yrs with screening:
@@ -52,9 +51,9 @@ TRANS50_Screen_MATRIX = [
     [0,          0,       0,           0, 0.011061,      0.0041757,   1,  0,   0],  # CRC
     [0,          0,       0,           0,        0,              0,   0,  0,   0],  # CRC_DEATH
     [0,          0,       0,           0,        0,              0,   0,  0,   0],  # NATUAL_DEATH
-    [351.86,     0,       0,           0,        0,    0.0041757*r2,   0,  0, 13.14],  # SCREEN_NO_DISEASE
-    [0,     337.26,   278.13,      97.455,       0,    0.0041757*r2,   0,  0, 382.155],  # SCREEN_DISEASE
-    [3.92,      0,        0,           0,        0,    0.0041757*r2,   0,  0,    0],  # TREATMENT
+    [351.86,     0,       0,           0,        0,    0.0041757*r1,   0,  0, 13.14],  # SCREEN_NO_DISEASE
+    [0,     337.26,   278.13,      97.455,       0,    0.0041757*r1,   0,  0, 382.155],  # SCREEN_DISEASE
+    [3.92,      0,        0,           0,        0,    0.0041757*r1,   0,  0,    0],  # TREATMENT
 ]
 # annual health utility of each health state
 ANNUAL_STATE_UTILITY = [

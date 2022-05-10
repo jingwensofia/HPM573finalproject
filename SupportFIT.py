@@ -5,7 +5,6 @@ import SimPy.Plots.SamplePaths as Path
 import SimPy.Statistics as Stat
 import numpy as np
 
-
 def print_outcomes(sim_outcomes, therapy_name):
     """ prints the outcomes of a simulated cohort
     :param sim_outcomes: outcomes of a simulated cohort

@@ -3,7 +3,7 @@ import InputDataFIT as Data
 
 
 class Therapies(Enum):
-    """ mono vs. combination therapy """
+    """ screening at 50 vs. screening at 45 strategy """
     Screen50 = 0
     Screen45 = 1
 

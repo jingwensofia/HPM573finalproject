@@ -1,5 +1,4 @@
 import numpy as np
-
 import SimPy.Markov as Markov
 import SimPy.SamplePath as Path
 from InputDataFIT import HealthStates
