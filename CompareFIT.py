@@ -42,4 +42,4 @@ Support.report_CEA_CBA(sim_outcomes_45screen=cohort_45screen.cohortOutcomes,
                        sim_outcomes_50screen=cohort_50screen.cohortOutcomes)
 
 
-print('If the willingness-to-pay is $2,232, I would recommend adopting strategy screening at 45')
+print('If the willingness-to-pay is $2,355, I would recommend adopting strategy screening at 45')

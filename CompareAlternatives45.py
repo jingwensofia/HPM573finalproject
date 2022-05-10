@@ -6,7 +6,8 @@ import Support as Support
 
 # simulating mono therapy
 # create a cohort
-cohort_screen = Cls.Cohort(id=1,      # id could be any number, could be changed to 0
+# id could be any number, could be changed to 0
+cohort_screen = Cls.Cohort(id=1,
                            pop_size=D.POP_SIZE,
                            parameters=P.Parameters(therapy=P.Therapies.Screen))
 # simulate the cohort
@@ -40,4 +41,4 @@ Support.report_CEA_CBA(sim_outcomes_screen=cohort_screen.cohortOutcomes,
                        sim_outcomes_no_screen=cohort_no_screen.cohortOutcomes)
 
 
-print('If the willingness-to-pay is $8,409, I would recommend adopting this screening strategy')
+print('If the willingness-to-pay is $10,719, I would recommend adopting this screening strategy')
